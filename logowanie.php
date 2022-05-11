@@ -17,7 +17,7 @@ session_start();
         
         <form class = "login-form"  method = "post">
         <div class = "container">
-            <!-- bank logo -->
+            
             <div class = "login_logo">
             <i class = "fa fa-bank"=></i>
             </div>
