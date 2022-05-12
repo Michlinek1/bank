@@ -7,6 +7,10 @@ $sql = mysqli_query($pol, "SELECT * FROM uzytkownik WHERE login = '$_SESSION[log
 $sql1 = mysqli_query($pol, "SELECT * FROM platnosci WHERE id_uzytkownika = '$_SESSION[id]'");
 $row = mysqli_fetch_assoc($sql);
 $row1 = mysqli_fetch_assoc($sql1);
+if($_SESSION['zalogowany'] == false){
+    header("Location: logowanie.php");
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -27,7 +31,6 @@ $row1 = mysqli_fetch_assoc($sql1);
     var datapokazywanie = document.getElementById("time");
     var data = new Date();
     datapokazywanie.innerHTML = data.toLocaleString();;
-    setTimeout(time, 1000);
   };
   
   setInterval(time, 1000);
@@ -42,11 +45,16 @@ $row1 = mysqli_fetch_assoc($sql1);
                 <ul>
                     <h1><?php echo "Witaj: $row[login]"?></h1>
                     <h1 id = "time"></h1>
+                    <a href ="logowanie.php" ><h1 id = "wyloguj" name = "Wyloguj"> Wyloguj <?php session_destroy() ?></h1></a>
                 </ul>
             </div>
         </div>
     </div>
-
+<!-- TODO:
+    1. zrobic przelew
+    2. zrobic wyswietlanie wszystkich przelewow
+    3. zrobic wyswietlanie wszystkich platnosci
+!-->
 
 
     <!--<div class = "wykres">
