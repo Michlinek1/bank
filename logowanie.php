@@ -1,7 +1,6 @@
 <?php
 session_start();
-error_reporting(E_ALL & ~E_NOTICE);
-
+error_reporting(0);
 ?>
     <!DOCTYPE html>
     <html lang="en">
@@ -54,6 +53,7 @@ error_reporting(E_ALL & ~E_NOTICE);
                 $_SESSION['id'] = $row['id'];
                 $_SESSION['login'] = $row['login'];
                 header("Location: index.php?logged=true");
+                $_SESSION['zalogowany'] = true;
             }else{
                 echo '<script>'
                 .'swal("Błąd", "Wprowadz poprawny email oraz hasło", "error")'
