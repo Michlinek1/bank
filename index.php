@@ -1,5 +1,7 @@
 <?php
 session_start();
+?>
+<?php
 
 $pol = new mysqli('localhost', 'root', '', 'bank');
 
@@ -11,10 +13,9 @@ if($_SESSION['zalogowany'] == false){
     header("Location: logowanie.php");
 }
 
-
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pl">    
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,8 +23,24 @@ if($_SESSION['zalogowany'] == false){
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
     <link rel = "stylesheet" href = "style.css"/>
     <link rel = "stylesheet" href = "styleindex.css"/>
-    <script defer src = "scriptindex.js"></script>
+    <!--<script defer src = "scriptindex.js"></script> !-->
     <title>Bank</title>
+    <style>
+        .tranzakcjeclass{
+            display:inline-block;
+            border: 1px solid black;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+            height: 300px;
+            text-align: center;
+            border-radius: 10px;
+            position: absolute;
+            bottom: 50vh;
+            
+        }
+
+    </style>
 </head>
 <body>
     <script>
@@ -39,13 +56,32 @@ if($_SESSION['zalogowany'] == false){
         <h1>Twoje środki: <?php echo"$row[pieniadze]"?> zł</h1>
         <button class = "login_przycisk" onclick = "window.location.href = 'przelew.php'">Zrób przelew</button>
     </div>
+    <div class = 'tranzakcjeclass'>
+    <h1>Twoje tranzakcje:</h1> 
+        <table class = 'tabletranzakcje'><br>
+            <tr>
+                <th>Data &nbsp;</th>
+                <th>Kwota &nbsp;</th>
+                <th>Konto docelowe &nbsp;</th>
+            </tr>
+        </table>
+    </div>
     <div class = "column">
         <div class = "header">
             <div class = "menu">
                 <ul>
                     <h1><?php echo "Witaj: $row[login]"?></h1>
                     <h1 id = "time"></h1>
-                    <a href ="logowanie.php" ><h1 id = "wyloguj" name = "Wyloguj"> Wyloguj <?php session_destroy() ?></h1></a>
+                    <form method = "post">
+                    <a href ="logowanie.php" ><h1 id = "wyloguj" type = "submit" name = "Wyloguj"> Wyloguj </h1></a>
+                    </form>
+                    <?php
+                    if(isset($_POST['Wyloguj'])){
+                        session_destroy();
+                        header("Location: logowanie.php");
+                    }
+
+                    ?>
                 </ul>
             </div>
         </div>
