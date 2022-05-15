@@ -1,5 +1,6 @@
 <?php
 session_start();
+error_reporting(E_ALL);
 ?>
 <?php
 
@@ -7,6 +8,7 @@ $pol = new mysqli('localhost', 'root', '', 'bank');
 
 $sql = mysqli_query($pol, "SELECT * FROM uzytkownik WHERE login = '$_SESSION[login]'");
 $sql1 = mysqli_query($pol, "SELECT * FROM platnosci WHERE id_uzytkownika = '$_SESSION[id]'");
+$sql2 = mysqli_query($pol, "SELECT * FROM znajomi");
 $row = mysqli_fetch_assoc($sql);
 $row1 = mysqli_fetch_assoc($sql1);
 if($_SESSION['zalogowany'] == false){
@@ -21,6 +23,7 @@ if($_SESSION['zalogowany'] == false){
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4/dist/Chart.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
     <link rel = "stylesheet" href = "style.css"/>
     <link rel = "stylesheet" href = "styleindex.css"/>
     <!--<script defer src = "scriptindex.js"></script> !-->
@@ -38,6 +41,20 @@ if($_SESSION['zalogowany'] == false){
             position: absolute;
             bottom: 50vh;
             
+        }
+        .znajomitable{
+            display:inline-block;
+            border: 1px solid black;
+            padding: 10px;
+            margin: 10px;
+            width: 300px;
+            height: 300px;
+            text-align: center;
+            border-radius: 10px;
+            position: absolute;
+            right: 3vh;
+            bottom: 50vh;
+
         }
 
     </style>
@@ -60,12 +77,39 @@ if($_SESSION['zalogowany'] == false){
     <h1>Twoje tranzakcje:</h1> 
         <table class = 'tabletranzakcje'><br>
             <tr>
-                <th>Data &nbsp;</th>
+                <th>Data &nbsp; </th>
                 <th>Kwota &nbsp;</th>
                 <th>Konto docelowe &nbsp;</th>
             </tr>
+      
         </table>
     </div>
+    <div class = 'znajomitable'>
+    <h1>Znajomi:</h1>
+        <table id = 'tableznajomi'><br>
+            <tr>
+                <th id = 'imie'>Imie &nbsp; </th>
+                <th id = 'nazwisko'>Nazwisko &nbsp; </th>
+            </tr> 
+            <?php
+            echo mysqli_num_rows($sql2);
+            while($row1 = mysqli_fetch_assoc($sql2)){
+                if(mysqli_num_rows($sql2) == 0){
+                    echo "Brak znajomych";
+            }else{
+                echo"<tr>";
+                echo"<td>$row1[imie]</td>";
+                echo"<td>$row1[nazwisko]</td>";
+                echo"</tr>";
+
+
+            }
+        }
+
+            ?>
+            <script>
+            </script>
+        </table>
     <div class = "column">
         <div class = "header">
             <div class = "menu">
